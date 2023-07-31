@@ -2,15 +2,15 @@
 
 ## SWBAT
 
-- [ ] Describe what functions are and their central importance in JS
-- [ ] Review syntax differences between regular functions and arrow functions
-- [ ]Explain the difference between:
-  - [ ] Block scope
-  - [ ] Function scope
-  - [ ] Global scope
-- [ ] Understand what it means that a function are first- class -objects
-- [ ] Explain what a higher-order function is
-- [ ] Grasp the relationship betweenDescribe what a callback and higher-order functions is
+- Describe what functions are and their central importance in JS
+- Review syntax differences between regular functions and arrow functions
+- Explain the difference between:
+  - Block scope
+  - Function scope
+  - Global scope
+- Understand what it means that a function are first- class objects
+- Explain what a higher-order function is
+- Grasp the relationship betweenDescribe what a callback and higher-order functions is
 
 <p align="center">
     <svg host="65bd71144e" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="771px" height="401px" viewBox="-0.5 -0.5 771 401" content="&lt;mxfile&gt;&lt;diagram id=&quot;pAZiludJJASJAjtSt3jZ&quot; name=&quot;Page-1&quot;&gt;7Vrfb9sgEP5rLG0PnWzjX31s03abtEmT+rBnamMHjYCHcZP0rx+OcWwCyRI1idtsLwk+4MJ9d/dx4DhgMlt85rCcfmcZIo7vZgsH3Dm+HyeJ/GwEy1YQuUErKDjOWpHXCx7xC1JCV0lrnKFKGygYIwKXujBllKJUaDLIOZvrw3JG9F8tYYEMwWMKiSn9iTMxbaVJ6PbyLwgX0+6XPVf1zGA3WAmqKczYfCAC9w6YcMZE25otJog02HW4tPMetvSuF8YRFftM8NsJz5DUyja1LrHsjOWsphlqxrsOuJ1PsUCPJUyb3rn0rpRNxYzIJ082lTrEBVpsXZK3NlQGCGIzJPhSDlETAgXNUn+c90DHsZJNByAHHcZQObdYa+7tlw0FgR0OYMDxwDgqVhAcCm3yd2hRJsNKPVJGkQ3LZsxWJNV6K1bzVI1SmSQgL5AaFdvx5ohAgZ917a9BrwvqgckZyjGVqWqz/Bt8krSgmQwJLqhsp9JCxKWgiSQsE+9GdcxwljU6bjmq8At8Wulr4rJkmIrV2sNbJ7yTkpxRoajD83eFpmIJpazPzSHQyc6QvXI/uUGYaHF7pbTvjbLS/qMxZKDG12ewPK+kXze9sl7TXo4KDD99kMZCqQHxj2cgALATTT/WGcDzTQpYy4YUEB2BAa7HydrQzNrgTFnr2UyOiFAppNke/a5Z13FVrZLrRg7w/HLRd8pW0XzDNEWlzEmlTK6j1df2jk0JyWsp4XpnEEtGiKL4qIzQkc2G1vAEBBEaIZHXNBWY0dHZYUxy2Kdc2s0O9k3pULaITbbYVlQdf5M3a6QCUcShuIBtvvXnrn3eC8PoFFkNdKWn2PVjw3GEFTgdPaODaMSU9sya9eDdL7HtfndN5YtbytxvA5QICh3cSnD2C00YYbxnkxwTsiHaP59s3tT9fQSHJro/I9Od0bXFneAY7vRO5M6v9Jml8L87JUWGZ/Snb/qTI1FzupaNzV7RmOwFzJPcWy3UgHdOXMwC1lqbHHyMG1ZhwHLVAuK9YTp6ZQai13Pfv3iQa4PlQk9ywKz6ZLjWs8b6sRliXIo41f2sRhGWk1pgC8FzUYR518Nr+v7PbeDC7mfNQ8nbPKqdNWMDW21/itsX7XWKa8lgMF4GB74BwuVcvwS73wy+7+uXwLw4e+NHmVNmt3zs33K3aPZ/FQD3fwA=&lt;/diagram&gt;&lt;/mxfile&gt;">
