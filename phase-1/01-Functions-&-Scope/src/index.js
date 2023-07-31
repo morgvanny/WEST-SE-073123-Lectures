@@ -117,9 +117,12 @@ const inventory = [
 let highestPriceBook;
 
 // ✅ create a function `findHighestPricedBook` that finds that book and returns it
-
+let x = 11;
+console.log(x);
 function findHighestPricedBook() {
-  highestPriceBook = inventory[0]; // set to first book
+  let x = 10;
+  x = 25;
+  let highestPriceBook = inventory[0]; // set to first book
   for (let i = 1; i < inventory.length; i++) {
     const highestPriceSoFar = highestPriceBook.price;
     const thisBook = inventory[i];
@@ -130,11 +133,43 @@ function findHighestPricedBook() {
   return highestPriceBook;
 }
 
-console.log("highestPriceBook", highestPriceBook);
+function another() {
+  // x is 11
+  x += 7;
+  console.log(x);
+  // one level beneath global
+}
+
+another();
+console.log(x);
+another();
+console.log(x);
+another();
+console.log(x);
+
+console.log(findHighestPricedBook());
+
+const adder = (a, b) => a + b;
+
+// const adder = (a, b) => {
+//   return a + b;
+// };
+
+// function adder(a, b) {
+//   return a + b;
+// }
+
+const result = adder(7, 7);
+// console.log(result);
+const multiplier = (a, b) => a * b;
+
+// console.log(multiplier(2, 6));
+
+// console.log("highestPriceBook", highestPriceBook);
 
 // highestPrice book is undefined until we call findHighestPricedBook()
 findHighestPricedBook();
-console.log("highestPriceBook", highestPriceBook);
+// console.log("highestPriceBook", highestPriceBook);
 
 // What is the problem with storing highestPriceBook as a global variable here? What would happen if we added another book of a higher price?
 
@@ -154,3 +189,17 @@ console.log("highestPriceBook", highestPriceBook);
 // 'Eloquent JavaScript: A Modern Introduction to Programming by Marjin Haverbeke is on sale for $10.00'
 
 // 💡 When do I use forEach vs map?
+
+let total = 0;
+
+inventory.forEach((book) => {
+  total += book.price;
+});
+
+console.log(total);
+
+const bookPrices = inventory.map((book) => {
+  return book.price;
+});
+
+console.log(bookPrices);
