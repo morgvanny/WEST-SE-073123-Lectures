@@ -121,6 +121,33 @@ bookForm.addEventListener("submit", (e) => {
 // call render functions to populate the DOM
 ////////////////////////////////////////////
 
-renderHeader(bookStore);
-renderFooter(bookStore);
-bookStore.inventory.forEach(renderBook);
+// renderHeader(bookStore);
+// renderFooter(bookStore);
+// bookStore.inventory
+
+fetch("http://localhost:3000/books")
+  .then((res) => res.json())
+  .then((books) => {
+    books.forEach(renderBook);
+  });
+
+// async function getBooks() {
+//   let response = await fetch("http://localhost:3000/books");
+//   let data = await response.json();
+//   data.forEach(renderBook);
+// }
+
+// getBooks();
+
+fetch("https://pokeapi.co/api/v2/pokemon?limit=100")
+  .then((r) => r.json())
+  .then((data) => {
+    console.log(data);
+    data.results.forEach((p) => {
+      fetch(p.url)
+        .then((r) => r.json())
+        .then((pokemon) => {
+          console.log(pokemon);
+        });
+    });
+  });
