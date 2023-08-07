@@ -1,14 +1,14 @@
 //////////////////////////////////////////////////////////
 // Fetch Data & Call render functions to populate the DOM
 //////////////////////////////////////////////////////////
-getJSON('http://localhost:3000/stores')
+getJSON("http://localhost:3000/stores")
   .then((stores) => {
     // this populates a select tag with options so we can switch between stores on our web page
     renderStoreSelectionOptions(stores);
-    renderHeader(stores[0])
-    renderFooter(stores[0])
+    renderHeader(stores[0]);
+    renderFooter(stores[0]);
   })
-  .catch(err => {
+  .catch((err) => {
     console.error(err);
     // renderError('Make sure to start json-server!') // I'm skipping this so we only see this error message once if JSON-server is actually not running
   });
@@ -16,46 +16,44 @@ getJSON('http://localhost:3000/stores')
 // load all the books and render them
 getJSON("http://localhost:3000/books")
   .then((books) => {
-    books.forEach(book => renderBook(book))
+    books.forEach((book) => renderBook(book));
   })
   .catch(renderError);
-
 
 ///////////////////
 // render functions
 ///////////////////
 function renderHeader(bookStore) {
-  document.querySelector('header h1').textContent = bookStore.name;
+  document.querySelector("header h1").textContent = bookStore.name;
 }
 
 function renderFooter(bookStore) {
-  document.querySelector('#address').textContent = bookStore.address;
-  document.querySelector('#number').textContent = bookStore.number;
-  document.querySelector('#store').textContent = bookStore.location;
+  document.querySelector("#address").textContent = bookStore.address;
+  document.querySelector("#number").textContent = bookStore.number;
+  document.querySelector("#store").textContent = bookStore.location;
 }
 
 // adds options to a select tag that allows swapping between different stores
 function renderStoreSelectionOptions(stores) {
   // target the select tag
-  const storeSelector = document.querySelector('#store-selector');
+  const storeSelector = document.querySelector("#store-selector");
   // clear out any currently visible options
   storeSelector.innerHTML = "";
   // add an option to the select tag for each store
-  stores.forEach(addSelectOptionForStore)
+  stores.forEach(addSelectOptionForStore);
   // add a listener so that when the selection changes, we fetch that store's data from the server and load it into the DOM
-  storeSelector.addEventListener('change', (e) => {
-    getJSON(`http://localhost:3000/stores/${e.target.value}`)
-      .then(store => {
-        renderHeader(store);
-        renderFooter(store);
-      })
-  })
+  storeSelector.addEventListener("change", (e) => {
+    getJSON(`http://localhost:3000/stores/${e.target.value}`).then((store) => {
+      renderHeader(store);
+      renderFooter(store);
+    });
+  });
 }
 
-const storeSelector = document.querySelector('#store-selector');
+const storeSelector = document.querySelector("#store-selector");
 
 function addSelectOptionForStore(store) {
-  const option = document.createElement('option');
+  const option = document.createElement("option");
   // the option value will appear within e.target.value
   option.value = store.id;
   // the options textContent will be what the user sees when choosing an option
@@ -75,73 +73,73 @@ function addSelectOptionForStore(store) {
 // </li>
 // appends the li to the ul#book-list in the DOM
 function renderBook(book) {
-    
-  const li = document.createElement('li');
-  li.className = 'list-li';
-  
-  const h3 = document.createElement('h3');
+  const li = document.createElement("li");
+  li.className = "list-li";
+
+  const h3 = document.createElement("h3");
   h3.textContent = book.title;
 
-  const pAuthor = document.createElement('p');
+  const pAuthor = document.createElement("p");
   pAuthor.textContent = book.author;
-  
-  const pPrice = document.createElement('p');
+
+  const pPrice = document.createElement("p");
   pPrice.textContent = `${formatPrice(book.price)}`;
-  
-  const pStock = document.createElement('p');
+
+  const pStock = document.createElement("p");
   pStock.className = "grey";
   if (book.inventory === 0) {
     pStock.textContent = "Out of stock";
   } else if (book.inventory < 3) {
     pStock.textContent = "Only a few left!";
   } else {
-    pStock.textContent = "In stock"
+    pStock.textContent = "In stock";
   }
-  
-  const img = document.createElement('img');
+
+  const img = document.createElement("img");
   img.src = book.imageUrl;
   img.alt = `${book.title} cover`;
 
-  const btn = document.createElement('button');
-  btn.textContent = 'Delete';
+  const btn = document.createElement("button");
+  btn.textContent = "Delete";
 
-  btn.addEventListener('click', (e) => {
+  btn.addEventListener("click", (e) => {
     li.remove();
-  })
+  });
 
   li.append(h3, pAuthor, pPrice, pStock, img, btn);
-  document.querySelector('#book-list').append(li);
+  document.querySelector("#book-list").append(li);
 }
 
 function renderError(error) {
-  const main = document.querySelector('main');
-  const errorDiv = document.createElement('div');
-  errorDiv.className = 'error';
+  const main = document.querySelector("main");
+  const errorDiv = document.createElement("div");
+  errorDiv.className = "error";
   if (error.message === "Failed to fetch") {
-    errorDiv.textContent = "Whoops! Looks like you forgot to start your JSON-server!"
+    errorDiv.textContent =
+      "Whoops! Looks like you forgot to start your JSON-server!";
   } else {
     errorDiv.textContent = error;
   }
   main.prepend(errorDiv);
-  window.addEventListener('keydown', (e) => {
+  window.addEventListener("keydown", (e) => {
     if (e.key === "Escape") {
       errorDiv.remove();
     }
-  })
+  });
 }
 
 function formatPrice(price) {
-  return '$' + Number.parseFloat(price).toFixed(2);
+  return "$" + Number.parseFloat(price).toFixed(2);
 }
 
 // fill in a form's with the data in an object
 function fillIn(form, data) {
   for (field in data) {
-    // use [] notation for accessing data stored 
+    // use [] notation for accessing data stored
     // in an object at variable keys, i.e. when
     // we don't know the key name up front.
     // In this case, it comes from an argument.
-    form[field].value = data[field]
+    form[field].value = data[field];
   }
 }
 
@@ -151,13 +149,13 @@ function fillIn(form, data) {
 
 // UI Events
 ////////////////////////////////////////////////////////////////
-const toggleBookFormButton = document.querySelector('#toggleBookForm');
-const bookForm = document.querySelector('#book-form');
-const toggleStoreFormButton = document.querySelector('#toggleStoreForm');
-const storeForm = document.querySelector('#store-form');
+const toggleBookFormButton = document.querySelector("#toggleBookForm");
+const bookForm = document.querySelector("#book-form");
+const toggleStoreFormButton = document.querySelector("#toggleStoreForm");
+const storeForm = document.querySelector("#store-form");
 
 function toggleBookForm() {
-  const bookFormHidden = bookForm.classList.toggle('collapsed');
+  const bookFormHidden = bookForm.classList.toggle("collapsed");
   if (bookFormHidden) {
     toggleBookFormButton.textContent = "New Book";
   } else {
@@ -166,7 +164,7 @@ function toggleBookForm() {
 }
 
 function toggleStoreForm() {
-  const storeFormHidden = storeForm.classList.toggle('collapsed');
+  const storeFormHidden = storeForm.classList.toggle("collapsed");
   if (storeFormHidden) {
     toggleStoreFormButton.textContent = "New Store";
   } else {
@@ -175,21 +173,21 @@ function toggleStoreForm() {
 }
 
 // hide and show the new book/store form when toggle buton is clicked
-toggleBookFormButton.addEventListener('click', toggleBookForm);
-toggleStoreFormButton.addEventListener('click', toggleStoreForm);
+toggleBookFormButton.addEventListener("click", toggleBookForm);
+toggleStoreFormButton.addEventListener("click", toggleStoreForm);
 
 // also hide both form when they're visible and the escape key is pressed
 
-window.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape') {
-    if (!bookForm.classList.contains('collapsed')) {
+window.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") {
+    if (!bookForm.classList.contains("collapsed")) {
       toggleBookForm();
-    };
-    if (!storeForm.classList.contains('collapsed')) {
+    }
+    if (!storeForm.classList.contains("collapsed")) {
       toggleStoreForm();
-    };
+    }
   }
-})
+});
 
 // Data persisting events
 ////////////////////////////////////////////////////////////////
@@ -205,28 +203,82 @@ window.addEventListener('keydown', (e) => {
 //   imageUrl: 'https://images-na.ssl-images-amazon.com/images/I/51IKycqTPUL._SX218_BO1,204,203,200_QL40_FMwebp_.jpg'
 // }
 // we can use a book as an argument for renderBook!  This will add the book's info to the webpage.
-bookForm.addEventListener('submit', (e) => { 
+bookForm.addEventListener("submit", (e) => {
   e.preventDefault();
   // pull the info for the new book out of the form
   const book = {
     title: e.target.title.value,
     author: e.target.author.value,
-    price: Number.parseFloat(e.target.price.value),
+    price: parseFloat(e.target.price.value),
     reviews: [],
     inventory: Number(e.target.inventory.value),
-    imageUrl: e.target.imageUrl.value
-  }
+    imageUrl: e.target.imageUrl.value,
+  };
   // pass the info as an argument to renderBook for display!
-  renderBook(book);
+
+  // fetch("http://localhost:3000/books", {
+  //   method: "POST",
+  //   headers: {
+  //     "Content-Type": "application/json",
+  //   },
+  //   body: JSON.stringify(book),
+  // })
+  //   .then((r) => {
+  //     return r.json();
+  //   })
+  //   .then((newBook) => {
+  //     renderBook(newBook);
+  //   })
+  //   .catch((err) => {
+  //     console.error(err);
+  //   });
+
+  postJSON("http://localhost:3000/books", book)
+    .then((newBook) => {
+      renderBook(newBook);
+    })
+    .catch((err) => {
+      console.error(err);
+    });
+
   // 1. Add the ability to perist the book to the database when the form is submitted. When this works, we should still see the book that is added to the DOM on submission when we refresh the page.
 
   e.target.reset();
-})
+});
 
 // 2. Hook up the new Store form so it that it works to add a new store to our database and also to the DOM (as an option within the select tag)
 
+storeForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+
+  // const obj = { name: "morgan", age: 32 };
+  // this:
+  // // const name = obj.name;
+  // // const age = obj.age;
+  // is the same as this:
+  // const { name, age } = obj;
+
+  const { location, address, hours, number, name } = e.target;
+
+  const store = {
+    location: location.value,
+    address: address.value,
+    hours: hours.value,
+    number: number.value,
+    name: name.value,
+  };
+
+  postJSON("http://localhost:3000/stores", store)
+    .then((newStore) => {})
+    .catch();
+
+  console.log(store.id);
+
+  e.target.reset();
+});
+
 // we're filling in the storeForm with some data
-// for a new store programatically so we don't 
+// for a new store programatically so we don't
 // have to fill in the form every time we test
 // the functionality
 fillIn(storeForm, {
@@ -234,8 +286,12 @@ fillIn(storeForm, {
   location: "LaLaLand",
   number: "555-555-5555",
   address: "555 Shangri-La",
-  hours: "Monday - Friday 9am - 6pm"
-})
+  hours: "Monday - Friday 9am - 6pm",
+});
 
+const age = 15;
+const personName = "Jeff";
+const number = 3333333;
+// const person = { age: age, personName: personName }; // {age: 15, personName: "Jeff"}
 
-
+const person = { age, personName, phoneNumber: number };

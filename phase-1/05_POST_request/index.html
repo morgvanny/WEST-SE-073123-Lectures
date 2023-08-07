@@ -3,13 +3,11 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-   
-    
-    <link rel="stylesheet" href="style.css">
+
+    <link rel="stylesheet" href="style.css" />
 
     <script defer src="src/request_helpers.js"></script>
     <script defer src="src/index.js"></script>
-    
 
     <title>POST Requests</title>
   </head>
@@ -28,45 +26,44 @@
           <button id="toggleStoreForm">New Store</button>
           <form id="book-form" class="collapsed">
             <label for="title">Title:</label>
-            <input type="text" id="form-title" name="title">
+            <input type="text" id="form-title" name="title" />
 
             <label for="author">Author:</label>
-            <input type="text" id="form-author" name="author">
-          
+            <input type="text" id="form-author" name="author" />
+
             <label for="price">Price:</label>
-            <input type="number" id="form-price" name="price">
-          
+            <input type="number" step="0.01" id="form-price" name="price" />
+
             <label for="imageUrl">Image url:</label>
-            <input type="text" id="form-imageUrl" name="imageUrl">
-          
+            <input type="text" id="form-imageUrl" name="imageUrl" />
+
             <label for="inventory">Inventory:</label>
-            <input type="text" id="inventory" name="inventory">
-              
-            <input type="submit" value="ADD BOOK"/>
+            <input type="text" id="inventory" name="inventory" />
+
+            <input type="submit" value="ADD BOOK" />
           </form>
           <form id="store-form" class="collapsed">
             <label for="name">Name:</label>
-            <input type="text" id="form-name" name="name">
+            <input type="text" id="form-name" name="name" />
 
             <label for="location">Location:</label>
-            <input type="text" id="form-location" name="location">
-          
+            <input type="text" id="form-location" name="location" />
+
             <label for="number">Phone Number:</label>
-            <input type="text" id="form-number" name="number">
-          
+            <input type="text" id="form-number" name="number" />
+
             <label for="address">Address:</label>
-            <input type="text" id="form-address" name="address">
-          
+            <input type="text" id="form-address" name="address" />
+
             <label for="hours">Hours:</label>
-            <input type="text" id="hours" name="hours">
-              
-            <input type="submit" value="ADD STORE"/>
+            <input type="text" id="hours" name="hours" />
+
+            <input type="submit" value="ADD STORE" />
           </form>
         </div>
-      
+
         <div class="list">
-          <ul id="book-list">
-          </ul>
+          <ul id="book-list"></ul>
         </div>
       </main>
       <footer>
@@ -76,5 +73,4 @@
       </footer>
     </div>
   </body>
-  
 </html>
