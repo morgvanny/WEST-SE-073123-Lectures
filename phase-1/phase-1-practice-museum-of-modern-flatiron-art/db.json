@@ -1,0 +1,23 @@
+{
+  "current-exhibits": [
+    {
+      "id": 1,
+      "title": "The Giraffe Wall",
+      "image":"./assets/current-exhibit.jpg",
+      "artist_name": "Evans",
+      "description": "A modern interpretation of our contemporary independence from expressionism as told through a surrealist dialogue between abstract cubism and rococo fauvism. The great artist Evans believed only the majestic Giraffe could help tell a story like this. Tickets start at $9.99 (free for children below 21).",
+      "tickets_bought": 0,
+      "comments": [
+        "I don't know what this is...",
+        "What in the heckin' heck?",
+        "I like giraffes...",
+        "This is a great museum and I was not paid to write this comment...",
+        "OMG A COMMENT SECTION!",
+        "Have you seen giraffe tongues? Like, ew.",
+        "Did you know giraffe's are the tallest mammals on earth?",
+        "A giraffe's horns are called ossicones",
+        "I still like giraffes..."
+      ]
+    }
+  ]
+}
