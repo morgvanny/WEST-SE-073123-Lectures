@@ -1,5 +1,14 @@
+import Header from "./Header";
+import ProjectList from "./ProjectList";
+import projects from "./projects";
+
 function App() {
-  return <div>Project Showcase</div>;
+  return (
+    <>
+      <Header />
+      <ProjectList projects={projects} />
+    </>
+  );
 }
 
 export default App;
