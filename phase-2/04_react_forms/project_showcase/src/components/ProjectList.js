@@ -3,7 +3,6 @@ import { useState } from "react";
 
 const ProjectList = ({ projects }) => {
   const [searchQuery, setSearchQuery] = useState("");
-
   const searchResults = projects.filter((project) => {
     return project.name.toLowerCase().includes(searchQuery.toLowerCase());
   });

@@ -3,7 +3,7 @@ import Header from "./components/Header";
 import ProjectForm from "./components/ProjectForm";
 import ProjectList from "./components/ProjectList";
 
-// Deliverable 2: Handle submitting the form and update state in parent 
+// Deliverable 2: Handle submitting the form and update state in parent
 // using inverse data flow
 
 // - When the form is submitted:
@@ -19,6 +19,10 @@ const App = () => {
   const [projects, setProjects] = useState([]);
   const [isDarkMode, setIsDarkMode] = useState(true);
 
+  const addProject = (project) => {
+    setProjects([...projects, project]);
+  };
+
   const handleClick = () => {
     fetch("http://localhost:4000/projects")
       .then((res) => res.json())
@@ -30,7 +34,7 @@ const App = () => {
   return (
     <div className={isDarkMode ? "App" : "App light"}>
       <Header isDarkMode={isDarkMode} onToggleDarkMode={onToggleDarkMode} />
-      <ProjectForm />
+      <ProjectForm addProject={addProject} />
       <button onClick={handleClick}>Load Projects</button>
       <ProjectList projects={projects} />
     </div>
