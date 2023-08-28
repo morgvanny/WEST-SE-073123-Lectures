@@ -24,34 +24,42 @@ const App = () => {
     setProjects((projects) => [...projects, newProj]);
   };
 
-  const completeEditing = () => {
+  const onEditedProject = (updatedProject) => {
+    setProjects((projects) =>
+      projects.map((p) => {
+        if (p.id === updatedProject.id) {
+          return updatedProject;
+        } else {
+          return p;
+        }
+      })
+    );
     setProjectId(null);
+  };
+
+  const removeProject = (id) => {
+    setProjects((projects) => projects.filter((p) => p.id !== id));
   };
 
   const enterProjectEditModeFor = (projectId) => {
     setProjectId(projectId);
   };
 
-  const renderForm = () => {
-    if (projectId) {
-      return (
-        <ProjectEditForm
-          projectId={projectId}
-          completeEditing={completeEditing}
-        />
-      );
-    } else {
-      return <ProjectForm onAddProject={onAddProject} />;
-    }
-  };
+  const renderForm = projectId ? (
+    <ProjectEditForm projectId={projectId} onEditedProject={onEditedProject} />
+  ) : (
+    <ProjectForm onAddProject={onAddProject} />
+  );
 
   return (
     <div className={isDarkMode ? "App" : "App light"}>
       <Header isDarkMode={isDarkMode} onToggleDarkMode={onToggleDarkMode} />
-      {renderForm()}
+      {renderForm}
       <ProjectList
         projects={projects}
         enterProjectEditModeFor={enterProjectEditModeFor}
+        removeProject={removeProject}
+        onEditedProject={onEditedProject}
       />
     </div>
   );
