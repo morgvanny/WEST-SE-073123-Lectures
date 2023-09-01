@@ -1,16 +1,23 @@
 import ProjectListItem from "./ProjectListItem";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const ProjectList = ({
   projects,
   enterProjectEditModeFor,
   onDeleteProject,
+  setProjects,
 }) => {
   const [searchQuery, setSearchQuery] = useState("");
 
   const searchResults = projects.filter((project) => {
     return project.name.toLowerCase().includes(searchQuery.toLowerCase());
   });
+
+  useEffect(() => {
+    fetch("http://localhost:4000/projects")
+      .then((resp) => resp.json())
+      .then((projects) => setProjects(projects));
+  }, []);
 
   const projectItems = searchResults.map((project) => {
     return (
