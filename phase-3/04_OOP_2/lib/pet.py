@@ -1,17 +1,18 @@
 #!/usr/bin/env python3
-# Class Attributes and Methods 
+# Class Attributes and Methods
 
 import ipdb
 
+
 class Pet:
 
-# 4. ✅ Define a class attribute (total_pets) and set it to 0
+    # 4. ✅ Define a class attribute (total_pets) and set it to 0
 
     # Class Attribute
 
     # What happens with our instances when we update a class attribute?
 
-    def __init__(self,name, age, breed, temperament):
+    def __init__(self, name, age, breed, temperament):
         self.name = name
         self.age = age
         self.breed = breed
@@ -24,7 +25,7 @@ class Pet:
 # ipdb.set_trace()
 
 # 6. ✅. Create a class method increase_pets that will increment total_pets
-    
+
     # replace Pet.total_pets += 1 in __init__ with increase_pets()
 
     # Instance Method
