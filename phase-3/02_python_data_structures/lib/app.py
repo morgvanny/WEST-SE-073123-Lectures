@@ -1,6 +1,7 @@
 # Sequence Types
 
-# Note: use print() to execute the examples. Comment out examples as needed to keep your Terminal
+# Note: use print() to execute the examples. Comment out examples as needed to keep
+# your Terminal
 # output clean.
 
 # Creating Lists
@@ -115,7 +116,8 @@ pet_fav_food = {"house plants", "fish", "bacon"}
 pet_info_rose = {"name": "Rose", "age": 11, "breed": "domestic long"}
 
 
-# 26. ✅  Use dict to create a dictionary of pet information with the keys "name", "age" and "breed" => dict(...)
+# 26. ✅  Use dict to create a dictionary of pet information with the keys "name",
+# "age" and "breed" => dict(...)
 pet_info_spot = dict(name="Spot", age=25, breed="boxer")
 
 # Reading
@@ -191,7 +193,8 @@ pet_info_2 = [
 # for num in ra:
 #     print(num)
 
-# 35. ✅ Loop through a range between 50 and 60 that iterates by 2 and print every number
+# 35. ✅ Loop through a range between 50 and 60 that iterates by 2 and print every
+# number
 # for num in range(50, 60, 2):
 #     print(num)
 
@@ -204,8 +207,8 @@ pet_info_2 = [
 # Invoke the function and pass it "pet_names" as an argument
 
 
-def loop(l):
-    for pet in l:
+def loop(list):
+    for pet in list:
         print(pet)
 
 
@@ -220,9 +223,9 @@ def loop(l):
 # Return the counter
 
 
-def while_demo(l):
+def while_demo(list):
     counter = 0
-    while counter < len(l):
+    while counter < len(list):
         counter += 1
 
     return counter
@@ -234,10 +237,12 @@ def while_demo(l):
 # The function should take a list of "dictionaries", "name" and "age" as parameters
 # Create an index variable and set it to 0
 # Create a while loop
-# The loop will continue so long as the list does not contain a name matching the "name" param
+# The loop will continue so long as the list does not contain a name matching the "name"
+# param
 # and the index is less then the length of the list
 # Every list will increase the index by 1
-# If the dictionary containing a matching name is found, update the item's age with the new age
+# If the dictionary containing a matching name is found, update the item's age with the
+# new age
 # Otherwise, return 'Pet not found'
 
 
@@ -255,7 +260,8 @@ def update_age(list, name, age):
 # print(update_age(pet_info, "Meow Meow Beans", 3))
 
 # map like
-# 40. ✅ Use list comprehension to return a list containing every pet name from "pet_info" changed to uppercase
+# 40. ✅ Use list comprehension to return a list containing every pet name from
+# "pet_info" changed to uppercase
 # print([pet['name'].upper() for pet in pet_info])
 
 # find like
@@ -264,7 +270,7 @@ def update_age(list, name, age):
 
 # filter like
 # 42. ✅ Use list comprehension to find all of the pets under 3 years old
-l = [pet["name"] for pet in pet_info if pet["age"] < 3]
+list = [pet["name"] for pet in pet_info if pet["age"] < 3]
 # print(l)
 # 43. ✅ Create a generator expression matching the filter above
 gen = (pet["name"] for pet in pet_info if pet["age"] < 3)

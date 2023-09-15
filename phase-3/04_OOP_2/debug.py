@@ -4,6 +4,7 @@
 
 # Importing the pet class
 
+import ipdb
 from lib.cat import Cat
 from lib.owner import Owner
 
@@ -20,7 +21,5 @@ anthony = Owner("Anthony")
 anthony.adopt(cookie)
 me.adopt(marty)
 
-
-import ipdb
 
 ipdb.set_trace()

@@ -91,7 +91,7 @@ pet_1 = Pet("Martin", 8, "Poodle")
 try:
     pet_2 = Pet("Luna", 4, "Chihuahua")
 
-except:
+except TypeError:
     print("error occurred")
 
 ipdb.set_trace()
@@ -110,7 +110,7 @@ ipdb.set_trace()
 
 # Invoke "print_pet_details" on an instance
 
-# Example Terminal Ouput:
+# Example Terminal Output:
 # name: Rose
 # age: 11
 # breed: Domestic Longhair
