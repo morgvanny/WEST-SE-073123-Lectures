@@ -5,8 +5,19 @@
 
 # Creating Lists
 # 1. ✅ Create a list of 10 pet names
-pet_names = ['Rose', 'Tom', 'Meow Meow Beans', 'Mr.Legumes', 'Luke',
-             'Lea', 'Princess Grace', 'Spot', 'Tom', 'Mini', 'Paul']
+pet_names = [
+    "Rose",
+    "Tom",
+    "Meow Meow Beans",
+    "Mr.Legumes",
+    "Luke",
+    "Lea",
+    "Princess Grace",
+    "Spot",
+    "Tom",
+    "Mini",
+    "Paul",
+]
 
 # Reading Information From Lists
 # 2. ✅ Return the first pet name
@@ -96,16 +107,16 @@ ages = (1, 3, 4, 3, 3, 5, 8, 2, 10)
 
 # Sets (Stretch Goal)
 # 24. ✅ Create a set of 3 pet foods
-pet_fav_food = {'house plants', 'fish', 'bacon'}
+pet_fav_food = {"house plants", "fish", "bacon"}
 
 # Dictionaries
 # Creating
 # 25. ✅  Create a dictionary of pet information with the keys "name", "age" and "breed"
-pet_info_rose = {'name': 'Rose', 'age': 11, 'breed': 'domestic long'}
+pet_info_rose = {"name": "Rose", "age": 11, "breed": "domestic long"}
 
 
 # 26. ✅  Use dict to create a dictionary of pet information with the keys "name", "age" and "breed" => dict(...)
-pet_info_spot = dict(name='Spot', age=25, breed='boxer')
+pet_info_spot = dict(name="Spot", age=25, breed="boxer")
 
 # Reading
 # 27. ✅ Print the pet attribute of "name" using bracket notation
@@ -119,11 +130,11 @@ pet_info_spot = dict(name='Spot', age=25, breed='boxer')
 
 # Updating
 # 29. ✅ Update Rose's age to 12 => []
-pet_info_rose['age'] = 12
+pet_info_rose["age"] = 12
 # print(pet_info_rose)
 
 # 30. ✅ Update Spot's age to 26 => .update({...})
-pet_info_spot.update({'age': 26, 'name': "spot"})
+pet_info_spot.update({"age": 26, "name": "spot"})
 # print(pet_info_spot)
 
 # Deleting
@@ -131,7 +142,7 @@ pet_info_spot.update({'age': 26, 'name': "spot"})
 # del pet_info_rose['age']
 # print(pet_info_rose)
 # 32. ✅ Delete Spot's age using ".pop"
-pet_info_rose.pop('age')
+pet_info_rose.pop("age")
 # print(pet_info_rose)
 
 # 33. ✅ Delete the last item for Rose using "popitem()"
@@ -141,38 +152,38 @@ pet_info_rose.popitem()
 # Loops
 pet_info = [
     {
-        'name': 'Rose',
-        'age': 1,
-        'breed': 'domestic long-haired',
+        "name": "Rose",
+        "age": 1,
+        "breed": "domestic long-haired",
     },
     {
-        'name': 'Spot',
-        'age': 25,
-        'breed': 'boxer',
+        "name": "Spot",
+        "age": 25,
+        "breed": "boxer",
     },
     {
-        'name': 'Meow Meow Beans',
-        'age': 2,
-        'breed': 'domestic long-haired',
-    }
+        "name": "Meow Meow Beans",
+        "age": 2,
+        "breed": "domestic long-haired",
+    },
 ]
 
 pet_info_2 = [
     {
-        'name': 'Rose2',
-        'age': 11,
-        'breed': 'domestic long-haired',
+        "name": "Rose2",
+        "age": 11,
+        "breed": "domestic long-haired",
     },
     {
-        'name': 'Spot2',
-        'age': 25,
-        'breed': 'boxer',
+        "name": "Spot2",
+        "age": 25,
+        "breed": "boxer",
     },
     {
-        'name': 'Meow Meow Beans2',
-        'age': 2,
-        'breed': 'domestic long-haired',
-    }
+        "name": "Meow Meow Beans2",
+        "age": 2,
+        "breed": "domestic long-haired",
+    },
 ]
 
 # 34. ✅ Loop through a range of 10 and print every number within the range
@@ -208,9 +219,10 @@ def loop(l):
 # Every loop should increase the count by 1
 # Return the counter
 
+
 def while_demo(l):
     counter = 0
-    while (counter < len(l)):
+    while counter < len(l):
         counter += 1
 
     return counter
@@ -231,10 +243,10 @@ def while_demo(l):
 
 def update_age(list, name, age):
     counter = 0
-    while (list[counter]['name'] != name and counter < len(list)-1):
+    while list[counter]["name"] != name and counter < len(list) - 1:
         counter += 1
-    if list[counter]['name'] == name:
-        list[counter]['age'] = age
+    if list[counter]["name"] == name:
+        list[counter]["age"] = age
         return list[counter]
     else:
         return "Pet not found"
@@ -252,10 +264,10 @@ def update_age(list, name, age):
 
 # filter like
 # 42. ✅ Use list comprehension to find all of the pets under 3 years old
-l = [pet['name'] for pet in pet_info if pet['age'] < 3]
+l = [pet["name"] for pet in pet_info if pet["age"] < 3]
 # print(l)
 # 43. ✅ Create a generator expression matching the filter above
-gen = (pet['name'] for pet in pet_info if pet['age'] < 3)
+gen = (pet["name"] for pet in pet_info if pet["age"] < 3)
 print(gen)
 
 

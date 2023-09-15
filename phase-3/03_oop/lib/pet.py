@@ -25,9 +25,9 @@ import ipdb
 
 # Compare the Pet instances. Are each of them the same object?
 
+
 # 3. ✅ Demonstrate __init__
 class Pet:
-
     all = []
 
     def __init__(self, name, age, breed):
@@ -45,7 +45,7 @@ class Pet:
         return self._name
 
     def set_name(self, name):
-        if (isinstance(name, str)):
+        if isinstance(name, str):
             self._name = name
         else:
             print("Pet name must be a string.")
@@ -54,7 +54,7 @@ class Pet:
         return self._age
 
     def set_age(self, age):
-        if (isinstance(age, int)):
+        if isinstance(age, int):
             self._age = age
         else:
             raise Exception("Pet age must be a number")
@@ -66,7 +66,7 @@ class Pet:
     @breed.setter
     def breed(self, breed):
         approved_breeds = ["Poodle", "Chihuahua", "Australian Shepherd"]
-        if (breed in approved_breeds):
+        if breed in approved_breeds:
             self._breed = breed
         else:
             raise Exception("Pet's breed must be one of the approved breeds.")
@@ -77,7 +77,7 @@ class Pet:
         oldest_pet = cls.all[0]
 
         for pet in cls.all:
-            if (pet.age > oldest_pet.age):
+            if pet.age > oldest_pet.age:
                 oldest_pet = pet
 
         return oldest_pet
@@ -130,4 +130,3 @@ ipdb.set_trace()
 
 # Use property() to compile get_name / set_name and invoke them
 # whenever we access an Owner instance's name
-j
