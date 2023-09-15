@@ -50,8 +50,8 @@ class Cat(Pet):
 
 # ipdb.set_trace()
 
-# 9. ✅. Create a method unique to the Cat subclass called talk which returns
-# the string "Meow!"
+# 9. ✅. Create a method unique to the Cat subclass called talk which
+# returns the string "Meow!"
 
 # ipdb.set_trace()
 
