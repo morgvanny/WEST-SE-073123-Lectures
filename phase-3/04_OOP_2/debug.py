@@ -5,21 +5,39 @@
 # Importing the pet class
 
 import ipdb
-from lib.cat import Cat
-from lib.owner import Owner
+from lib.school import School
+from lib.student import Student
 
-cookie = Cat("cookie", 1, "Dachshund", "hyper", True)
+# from lib.cat import Cat
+# from lib.owner import Owner
 
-marty = Cat("marty", 1, "long-hair", "hyper", True)
+# cookie = Cat("cookie", 1, "Dachshund", "hyper", True)
 
-maggie = Cat("maggie", 1, "long-hair", "hyper", True)
+# marty = Cat("marty", 1, "long-hair", "hyper", True)
 
-me = Owner("Morgan")
+# maggie = Cat("maggie", 1, "long-hair", "hyper", True)
 
-anthony = Owner("Anthony")
+# me = Owner("Morgan")
 
-anthony.adopt(cookie)
-me.adopt(marty)
+# anthony = Owner("Anthony")
 
+# anthony.adopt(cookie)
+# me.adopt(marty)
+
+
+school = School("Flatiron")
+school = School("asdf")
+
+jason = Student("Jason", "Connolly")
+
+rae = Student("Rae", "Stanton")
+
+school_2 = School("Lonely School")
+
+# enrollment = Enrollment(school, jason)
+# enrollment = Enrollment(school, rae)
+
+school.enroll(jason)
+rae.enroll_at(school)
 
 ipdb.set_trace()
