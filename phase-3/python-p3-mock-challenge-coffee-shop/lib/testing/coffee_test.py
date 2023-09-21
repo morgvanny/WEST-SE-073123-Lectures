@@ -1,8 +1,5 @@
 import pytest
-
-from classes.many_to_many import Coffee
-from classes.many_to_many import Customer
-from classes.many_to_many import Order
+from classes.many_to_many import Coffee, Customer, Order
 
 
 class TestCoffee:
@@ -19,24 +16,24 @@ class TestCoffee:
         assert isinstance(coffee.name, str)
 
         # uncomment the next two lines if using Exceptions
-        # with pytest.raises(Exception):
-        #     Coffee(2.0)
+        with pytest.raises(Exception):
+            Coffee(2.0)
 
         # uncomment the next two lines if using Exceptions
-        # with pytest.raises(Exception):
-        #     Coffee("me")
+        with pytest.raises(Exception):
+            Coffee("me")
 
     def test_name_is_immutable(self):
         """cannot change the name of the coffee"""
         coffee = Coffee("Mocha")
 
         # comment out the next two lines if using Exceptions
-        coffee.name = "Peppermint Mocha"
-        assert coffee.name == "Mocha"
+        # coffee.name = "Peppermint Mocha"
+        # assert coffee.name == "Mocha"
 
         # uncomment the next two lines if using Exceptions
-        # with pytest.raises(Exception):
-        #     coffee.name = "Peppermint Mocha"
+        with pytest.raises(Exception):
+            coffee.name = "Peppermint Mocha"
 
     def test_has_many_orders(self):
         """coffee has many orders"""
