@@ -1,8 +1,5 @@
 import pytest
-
-from classes.many_to_many import NationalPark
-from classes.many_to_many import Visitor
-from classes.many_to_many import Trip
+from classes.many_to_many import NationalPark, Trip, Visitor
 
 
 class TestNationalParks:
@@ -19,24 +16,24 @@ class TestNationalParks:
         assert isinstance(np.name, str)
 
         # uncomment the next two lines if using Exceptions
-        # with pytest.raises(Exception):
-        #     NationalPark(2)
-        
+        with pytest.raises(Exception):
+            NationalPark(2)
+
         # uncomment the next two lines if using Exceptions
-        # with pytest.raises(Exception):
-        #     NationalPark("me")
+        with pytest.raises(Exception):
+            NationalPark("me")
 
     def test_name_setter(self):
         """cannot change the name of the national_park"""
         np = NationalPark("under the sea")
 
         # comment out the next two lines if using Exceptions
-        np.name = "over the sea"
-        assert np.name == "under the sea"
+        # np.name = "over the sea"
+        # assert np.name == "under the sea"
 
         # uncomment the next two lines if using Exceptions
-        # with pytest.raises(Exception):
-        #     np.name = "over the sea"
+        with pytest.raises(Exception):
+            np.name = "over the sea"
 
     def test_has_many_trips(self):
         """national_park has many trips"""
