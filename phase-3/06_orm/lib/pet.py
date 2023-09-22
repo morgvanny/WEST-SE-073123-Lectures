@@ -17,15 +17,21 @@ CURSOR = CONN.cursor()
 class Pet:
     # ✅ 1. Add "__init__" with "name", "species", "breed", "temperament", and "id"
     # (Default: None) Attributes
-    def __init__(self, name, species, breed, temperament, id=None):
+    def __init__(self, name, species, breed, temperament, owner_id, id=None):
         self.name = name
         self.species = species
         self.breed = breed
         self.temperament = temperament
+        self.owner_id = owner_id
         self.id = id
 
     # ✅ 2. Add "create_table" Class Method to Create "pets" Table If Doesn't Already
     # Exist
+
+    def owner(self):
+        from owner import Owner
+
+        return Owner.find_by_id(self.owner_id)
 
     @classmethod
     def create_table(cls):
@@ -35,9 +41,12 @@ class Pet:
             name TEXT,
             species TEXT,
             breed TEXT,
-            temperament TEXT)
+            temperament TEXT,
+            owner_id INTEGER,
+            FOREIGN KEY (owner_id) REFERENCES owners(id))
         """
         CURSOR.execute(sql)
+        CONN.commit()
 
     # ✅ 3. Add "drop_table" Class Method to Drop "pets" Table If Exists
 
@@ -47,22 +56,44 @@ class Pet:
             DROP TABLE IF EXISTS pets
         """
         CURSOR.execute(sql)
+        CONN.commit()
 
     # ✅ 4. Add "save" Instance Method to Persist New "pet" Instances to DB
 
     def save(self):
-        sql = """
-            INSERT INTO pets (name, species, breed, temperament)
-            VALUES (?, ?, ?, ?)
-        """
-
-        CURSOR.execute(sql, (self.name, self.species, self.breed, self.temperament))
-        self.id = CURSOR.lastrowid
+        if self.id:
+            sql = """
+                UPDATE pets
+                SET name = ?, breed = ?, species = ?, temperament = ?, owner_id = ?
+                WHERE id = ?
+            """
+            CURSOR.execute(
+                sql,
+                (
+                    self.name,
+                    self.species,
+                    self.breed,
+                    self.temperament,
+                    self.owner_id,
+                    self.id,
+                ),
+            )
+        else:
+            sql = """
+                INSERT INTO pets (name, species, breed, temperament, owner_id)
+                VALUES (?, ?, ?, ?, ?)
+            """
+            CURSOR.execute(
+                sql,
+                (self.name, self.species, self.breed, self.temperament, self.owner_id),
+            )
+            self.id = CURSOR.lastrowid
+        CONN.commit()
 
     # ✅ 5. Add "create" Class Method to Initialize and Save New "pet" Instances to DB
     @classmethod
-    def create(cls, name, species, breed, temperament):
-        pet = cls(name, species, breed, temperament)
+    def create(cls, name, species, breed, temperament, owner_id):
+        pet = cls(name, species, breed, temperament, owner_id)
         pet.save()
         return pet
 
@@ -70,7 +101,7 @@ class Pet:
     # Attributes From DB
     @classmethod
     def new_from_db(cls, row):
-        return cls(row[1], row[2], row[3], row[4], row[0])
+        return cls(row[1], row[2], row[3], row[4], row[5], row[0])
 
     # ✅ 7. Add "get_all" Class Method to Retrieve All "pet" Instances From DB
 
@@ -125,19 +156,23 @@ class Pet:
 
     # ✅ 10. Add "find_or_create_by" Class Method to:
     @classmethod
-    def find_or_create_by(cls, name=None, species=None, breed=None, temperament=None):
+    def find_or_create_by(
+        cls, name=None, species=None, breed=None, temperament=None, owner_id=None
+    ):
         sql = """
             SELECT * FROM pets
-            WHERE name = ? AND species = ? AND breed = ? AND temperament = ?
+            WHERE name = ? AND species = ? AND breed = ? AND temperament = ? AND owner_id = ?
             LIMIT 1
         """
 
-        row = CURSOR.execute(sql, (name, species, breed, temperament)).fetchone()
+        row = CURSOR.execute(
+            sql, (name, species, breed, temperament, owner_id)
+        ).fetchone()
 
         if row:
             return cls.new_from_db(row)
         else:
-            return cls.create(name, species, breed, temperament)
+            return cls.create(name, species, breed, temperament, owner_id)
 
     #  Find and Retrieve "pet" Instance w/ All Attributes
 
@@ -145,16 +180,15 @@ class Pet:
 
     # ✅ 11. Add "update" Class Method to Find "pet" Instance by "id" and Update All
     # Attributes
-    def update(self):
-        sql = """
-            UPDATE pets
-            SET name = ?, breed = ?, species = ?, temperament = ?
-            WHERE id = ?
-        """
-
-        CURSOR.execute(
-            sql, (self.name, self.breed, self.species, self.temperament, self.id)
-        )
+    def update(
+        self, name=None, species=None, breed=None, temperament=None, owner_id=None
+    ):
+        self.name = name or self.name
+        self.species = species or self.species
+        self.breed = breed or self.breed
+        self.temperament = temperament or self.temperament
+        self.owner_id = owner_id or self.owner_id
+        self.save()
 
     def delete(self):
         sql = """
@@ -162,3 +196,4 @@ class Pet:
         """
 
         CURSOR.execute(sql, (self.id,))
+        CONN.commit()
