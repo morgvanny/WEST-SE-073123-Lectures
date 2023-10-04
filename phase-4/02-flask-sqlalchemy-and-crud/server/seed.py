@@ -3,7 +3,7 @@
 # Seeding
 # 5. ✅ Imports
 from app import app
-from models import Production, db
+from models import CastMember, Production, db
 
 # db and Production from models
 
@@ -64,6 +64,16 @@ with app.app_context():
     )
 
     db.session.add(p4)
+
+    db.session.commit()
+
+    c1 = CastMember(name="Example Name", production_id=p1.id)
+    c2 = CastMember(name="Example Name 2", production_id=p1.id)
+    c3 = CastMember(name="Example Name 3", production_id=p2.id)
+    c4 = CastMember(name="Example Name 4", production_id=p2.id)
+
+    db.session.add_all([c1, c2, c3, c4])
+
     db.session.commit()
 # 8.✅ Create a query to delete all existing records from Production
 

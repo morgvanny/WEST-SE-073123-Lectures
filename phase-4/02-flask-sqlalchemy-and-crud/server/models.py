@@ -28,3 +28,16 @@ class Production(db.Model, SerializerMixin):
     description = db.Column(db.String)
     ongoing = db.Column(db.Boolean)
     ongoing = db.Column(db.Boolean)
+    cast_members = db.relationship("CastMember", backref="production", lazy=True)
+
+
+class CastMember(db.Model, SerializerMixin):
+    __tablename__ = "cast_members"
+
+    serialize_rules = ("-production.cast_members",)
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String)
+    production_id = db.Column(
+        db.Integer, db.ForeignKey("productions.id"), nullable=False
+    )
