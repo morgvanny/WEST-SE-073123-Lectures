@@ -37,7 +37,8 @@ def create_production():
 def production_by_id(id):
     prod = Production.query.get(id)
     if not prod:
-        return make_response({"error": "Production not found."}, 404)
+        return make_response({"message": "Production not found."}, 404)
+        # abort(404, "Production not found.")
     if request.method == "GET":
         return make_response(prod.to_dict(), 200)
     elif request.method == "PATCH":

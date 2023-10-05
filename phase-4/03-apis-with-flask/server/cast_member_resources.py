@@ -1,29 +1,33 @@
-from flask import make_response, request
+from flask import abort, make_response, request
 from flask_restful import Resource
 from models import CastMember, Production, db
 
 
 class CastMemberResource(Resource):
     def get(self, id):
-        cast_member = CastMember.query.get(id)
+        cast_member = self.get_cast_member(id)
         return make_response(cast_member.to_dict(), 200)
 
     def patch(self, id):
         cast_member_json = request.get_json()
+        cast_member = self.get_cast_member(id)
 
-        cast_member = CastMember.query.get(id)
-        if cast_member:
-            if cast_member_json.get("name"):
-                cast_member.name = cast_member_json.get("name")
-                db.session.commit()
-                return make_response(cast_member.to_dict(), 200)
+        if cast_member_json.get("name"):
+            cast_member.name = cast_member_json.get("name")
+            db.session.commit()
+            return make_response(cast_member.to_dict(), 200)
 
     def delete(self):
+        cast_member = self.get_cast_member(id)
+        db.session.delete(cast_member)
+        db.session.commit()
+        return "", 204
+
+    def get_cast_member(self, id):
         cast_member = CastMember.query.get(id)
-        if cast_member:
-            db.session.delete(cast_member)
-            db.session.commit()
-            return "", 204
+        if not cast_member:
+            abort(404, "Cast member not found.")
+        return cast_member
 
 
 class CastMembersResource(Resource):
