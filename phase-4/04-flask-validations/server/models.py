@@ -3,6 +3,8 @@
 # Review MVC
 # SQLAlchemy import
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy.ext.associationproxy import association_proxy
+from sqlalchemy.orm import validates
 from sqlalchemy_serializer import SerializerMixin
 
 # 📚 Review With Students:
@@ -32,6 +34,33 @@ class Production(db.Model, SerializerMixin):
     cast_members = db.relationship(
         "CastMember", backref="production", lazy=True, cascade="all,delete-orphan"
     )
+
+    @validates("title")
+    def validate_title(self, key, title):
+        titles = [production.title for production in type(self).query.all()]
+        if title in titles:
+            raise ValueError("Title must be unique")
+        if not title and len(title) < 101:
+            raise ValueError(
+                "Productions must have a title that's 100 characters or less."
+            )
+        return title
+
+    @validates("image")
+    def validate_image(self, key, image):
+        if ".jpeg" not in image:
+            raise ValueError("Image must be a .jpeg")
+        return image
+
+    # @validates("title")
+    # def validate_title_uniqueness(self, key, title):
+    #     import ipdb
+
+    #     ipdb.set_trace()
+    #     titles = [production.title for production in type(self).query.all()]
+    #     if title in titles:
+    #         raise ValueError("Title must be unique")
+    #     return title
 
 
 class CastMember(db.Model, SerializerMixin):
@@ -66,15 +95,7 @@ class Doctor(db.Model):
         "Appointment", back_populates="doctor", lazy=True, cascade="all,delete-orphan"
     )
 
-    patients = db.relationship(
-        "Patient",
-        secondary="appointments",
-        primaryjoin="Appointment.doctor_id == Doctor.id",
-        secondaryjoin="Appointment.patient_id == Patient.id",
-        back_populates="doctors",
-        lazy=True,  # You can use "dynamic" to create queries
-        viewonly=True,
-    )
+    patients = association_proxy("appointments", "patient")
 
 
 class Patient(db.Model):
@@ -87,15 +108,7 @@ class Patient(db.Model):
         "Appointment", back_populates="patient", lazy=True, cascade="all,delete-orphan"
     )
 
-    doctors = db.relationship(
-        "Doctor",
-        secondary="appointments",
-        primaryjoin="Appointment.patient_id == Patient.id",
-        secondaryjoin="Appointment.doctor_id == Doctor.id",
-        back_populates="patients",
-        lazy=True,  # You can use "dynamic" to create queries
-        viewonly=True,
-    )
+    doctors = association_proxy("appointments", "doctor")
 
 
 # CRUD

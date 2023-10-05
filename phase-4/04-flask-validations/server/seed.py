@@ -16,6 +16,7 @@ from models import Appointment, CastMember, Doctor, Patient, Production, db
 # Info on application context: https://flask.palletsprojects.com/en/1.1.x/appcontext/
 
 with app.app_context():
+    Production.query.delete()
     productions_to_delete = Production.query.all()
     for production in productions_to_delete:
         db.session.delete(production)
@@ -29,17 +30,21 @@ with app.app_context():
         db.session.delete(patient)
 
     db.session.commit()
-    p1 = Production(
-        title="Hamlet",
-        genre="Drama",
-        director="Bill Shakespeare",
-        description="The Tragedy of Hamlet, Prince of Denmark",
-        budget=100000.00,
-        image="https://upload.wikimedia.org/wikipedia/commons/6/6a/Edwin_Booth_Hamlet_1870.jpg",
-        ongoing=True,
-    )
 
-    db.session.add(p1)
+    try:
+        p1 = Production(
+            title="",
+            genre="Drama",
+            director="Bill Shakespeare",
+            description="The Tragedy of Hamlet, Prince of Denmark",
+            budget=100000.00,
+            image="https://upload.wikimedia.org/wikipedia/commons/6/6a/Edwin_Booth_Hamlet_1870.jpg",
+            ongoing=True,
+        )
+
+        db.session.add(p1)
+    except ValueError as e:
+        print(e.__str__())
 
     p2 = Production(
         title="Cats",

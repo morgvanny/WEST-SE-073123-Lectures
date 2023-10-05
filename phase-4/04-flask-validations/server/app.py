@@ -26,11 +26,17 @@ def productions():
 @app.route("/productions", methods=["POST"])
 def create_production():
     production_json = request.get_json()
-    production = Production(title=production_json["title"])
-    db.session.add(production)
-    db.session.commit()
 
-    return make_response(production.to_dict(), 201)
+    try:
+        production = Production(
+            title=production_json["title"], image=production_json["image"]
+        )
+        db.session.add(production)
+        db.session.commit()
+
+        return make_response(production.to_dict(), 201)
+    except ValueError as e:
+        return make_response({"error": e.__str__()})
 
 
 @app.route("/productions/<int:id>", methods=["GET", "PATCH", "DELETE"])
@@ -43,9 +49,13 @@ def production_by_id(id):
         return make_response(prod.to_dict(), 200)
     elif request.method == "PATCH":
         data = request.get_json()
-        prod.title = data.get("title")
-        db.session.commit()
-        return make_response(prod.to_dict(), 200)
+        try:
+            for attr in data:
+                setattr(prod, attr, data.get(attr))
+            db.session.commit()
+            return make_response(prod.to_dict(), 200)
+        except ValueError as e:
+            return make_response({"error": e.__str__()})
     elif request.method == "DELETE":
         db.session.delete(prod)
         db.session.commit()
