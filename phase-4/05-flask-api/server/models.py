@@ -2,6 +2,8 @@
 # Review models
 # Review MVC
 # SQLAlchemy import
+import datetime
+
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.ext.associationproxy import association_proxy
 from sqlalchemy.orm import validates
@@ -30,27 +32,46 @@ class Production(db.Model, SerializerMixin):
     director = db.Column(db.String)
     description = db.Column(db.String)
     ongoing = db.Column(db.Boolean)
-    ongoing = db.Column(db.Boolean)
+    created_at = db.Column(db.DateTime, default=datetime.datetime.utcnow)
+    updated_at = db.Column(
+        db.DateTime, default=datetime.datetime.utcnow, onupdate=datetime.datetime.utcnow
+    )
+
     cast_members = db.relationship(
         "CastMember", backref="production", lazy=True, cascade="all,delete-orphan"
     )
 
+    serialize_rules = (
+        "-created_at",
+        "-updated_at",
+        "-cast_members.production",
+        "-cast_members.production_id",
+        "-cast_members.id",
+    )
+
     @validates("title")
     def validate_title(self, key, title):
-        titles = [production.title for production in type(self).query.all()]
-        if title in titles:
-            raise ValueError("Title must be unique")
-        if not title and len(title) < 101:
-            raise ValueError(
-                "Productions must have a title that's 100 characters or less."
-            )
+        if not title:
+            raise ValueError("Productions must have a title.")
+        if len(title) > 100:
+            raise ValueError("Title must be 100 characters or less.")
+        if type(self).query.filter_by(title=title).first():
+            raise ValueError("Title must be unique.")
         return title
 
     @validates("image")
     def validate_image(self, key, image):
-        if ".jpeg" not in image:
+        if image and not isinstance(image, str):
+            raise ValueError("Image must be a string, or left blank.")
+        if isinstance(image, str) and image[len(image) - 5 :] != ".jpeg":
             raise ValueError("Image must be a .jpeg")
         return image
+
+    @validates("ongoing")
+    def validate_ongoing(self, key, ongoing):
+        if ongoing is not None and not isinstance(ongoing, bool):
+            raise ValueError("Ongoing attribute must be a boolean.")
+        return ongoing
 
     # @validates("title")
     # def validate_title_uniqueness(self, key, title):
@@ -73,6 +94,12 @@ class CastMember(db.Model, SerializerMixin):
     production_id = db.Column(
         db.Integer, db.ForeignKey("productions.id"), nullable=False
     )
+
+    @validates("name")
+    def validate_name(self, key, name):
+        if not name or not isinstance(name, str):
+            raise ValueError("Name must be a non-empty string.")
+        return name
 
 
 class Appointment(db.Model):

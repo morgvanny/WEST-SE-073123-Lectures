@@ -28,15 +28,28 @@ def create_production():
     production_json = request.get_json()
 
     try:
-        production = Production(
-            title=production_json["title"], image=production_json["image"]
-        )
+        # production = Production(
+        #     title=production_json.get("title"), image=production_json.get("image")
+        # )
+        properties = [
+            "title",
+            "image",
+            "ongoing",
+            "genre",
+            "director",
+            "description",
+            "budget",
+        ]
+        production = Production()
+        for prop in properties:
+            setattr(production, prop, production_json.get(prop))
+
         db.session.add(production)
         db.session.commit()
 
         return make_response(production.to_dict(), 201)
     except ValueError as e:
-        return make_response({"error": e.__str__()})
+        return make_response({"error": e.__str__()}, 422)
 
 
 @app.route("/productions/<int:id>", methods=["GET", "PATCH", "DELETE"])
@@ -66,5 +79,4 @@ api.add_resource(CastMemberResource, "/castmembers/<int:id>")
 api.add_resource(CastMembersResource, "/castmembers")
 
 if __name__ == "__main__":
-    app.run(port=5555, debug=True)
     app.run(port=5555, debug=True)
