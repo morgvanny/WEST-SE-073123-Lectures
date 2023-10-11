@@ -1,9 +1,9 @@
-from random import randint, choice as rc
-
-from faker import Faker
+from random import choice as rc
+from random import randint
 
 from app import app
-from models import db, Planet, Scientist, Mission
+from faker import Faker
+from models import Mission, Planet, Scientist, db
 
 fake = Faker()
 
