@@ -9,7 +9,7 @@ convention = {
     "uq": "uq_%(table_name)s_%(column_0_name)s",
     "ck": "ck_%(table_name)s_%(constraint_name)s",
     "fk": "fk_%(table_name)s_%(column_0_name)s_%(referred_table_name)s",
-    "pk": "pk_%(table_name)s"
+    "pk": "pk_%(table_name)s",
 }
 
 metadata = MetaData(naming_convention=convention)
@@ -18,7 +18,7 @@ db = SQLAlchemy(metadata=metadata)
 
 
 class Planet(db.Model, SerializerMixin):
-    __tablename__ = 'planets'
+    __tablename__ = "planets"
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String)
@@ -27,7 +27,8 @@ class Planet(db.Model, SerializerMixin):
 
     # Add relationship
     missions = db.relationship(
-        "Mission", back_populates="planet", cascade="all, delete-orphan")
+        "Mission", back_populates="planet", cascade="all, delete-orphan"
+    )
     scientists = association_proxy("missions", "scientist")
     # Add serialization rules
 
@@ -35,7 +36,7 @@ class Planet(db.Model, SerializerMixin):
 
 
 class Scientist(db.Model, SerializerMixin):
-    __tablename__ = 'scientists'
+    __tablename__ = "scientists"
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String)
@@ -43,7 +44,8 @@ class Scientist(db.Model, SerializerMixin):
 
     # Add relationship
     missions = db.relationship(
-        "Mission", back_populates="scientist", cascade="all, delete-orphan")
+        "Mission", back_populates="scientist", cascade="all, delete-orphan"
+    )
     planets = association_proxy("missions", "planet")
     # Add serialization rules
 
@@ -64,12 +66,12 @@ class Scientist(db.Model, SerializerMixin):
 
 
 class Mission(db.Model, SerializerMixin):
-    __tablename__ = 'missions'
+    __tablename__ = "missions"
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String)
-    scientist_id = db.Column(db.Integer, db.ForeignKey('scientists.id'))
-    planet_id = db.Column(db.Integer, db.ForeignKey('planets.id'))
+    scientist_id = db.Column(db.Integer, db.ForeignKey("scientists.id"))
+    planet_id = db.Column(db.Integer, db.ForeignKey("planets.id"))
 
     # Add relationships
 
@@ -97,7 +99,3 @@ class Mission(db.Model, SerializerMixin):
         if not planet_id:
             raise ValueError("must have a planet id")
         return planet_id
-
-
-# add any models you may need.
-# add any models you may need.

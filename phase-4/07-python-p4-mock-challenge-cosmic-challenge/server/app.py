@@ -8,15 +8,12 @@ from flask_restful import Api, Resource
 from models import Mission, Planet, Scientist, db
 
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
-DATABASE = os.environ.get(
-    "DB_URI", f"sqlite:///{os.path.join(BASE_DIR, 'app.db')}")
-
+DATABASE = os.environ.get("DB_URI", f"sqlite:///{os.path.join(BASE_DIR, 'app.db')}")
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config["SQLALCHEMY_DATABASE_URI"] = DATABASE
+app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.json.compact = False
-
 migrate = Migrate(app, db)
 
 db.init_app(app)
@@ -24,15 +21,16 @@ db.init_app(app)
 api = Api(app)
 
 
-@app.route('/')
+@app.route("/")
 def home():
-    return ''
+    return ""
 
 
 class Scientists(Resource):
     def get(self):
         return make_response(
-            [scientist.to_dict() for scientist in Scientist.query.all()], 200)
+            [scientist.to_dict() for scientist in Scientist.query.all()], 200
+        )
 
     def post(self):
         scientist_json = request.get_json()
@@ -86,8 +84,7 @@ class ScientistById(Resource):
 
 class Planets(Resource):
     def get(self):
-        return make_response(
-            [planet.to_dict() for planet in Planet.query.all()], 200)
+        return make_response([planet.to_dict() for planet in Planet.query.all()], 200)
 
 
 class Missions(Resource):
@@ -110,5 +107,5 @@ api.add_resource(Scientists, "/scientists")
 api.add_resource(ScientistById, "/scientists/<int:id>")
 api.add_resource(Planets, "/planets")
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     app.run(port=5555, debug=True)
