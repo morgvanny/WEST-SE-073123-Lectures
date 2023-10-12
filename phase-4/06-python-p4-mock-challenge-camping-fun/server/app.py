@@ -32,9 +32,7 @@ class Campers(Resource):
     def get(self):
         campers = Camper.query.all()
 
-        return make_response(
-            [camper.to_dict(rules=("-signups",)) for camper in campers], 200
-        )
+        return make_response([camper.to_dict() for camper in campers], 200)
 
     def post(self):
         camper_json = request.get_json()
@@ -46,7 +44,7 @@ class Campers(Resource):
                     setattr(camper, key, camper_json[key])
             db.session.add(camper)
             db.session.commit()
-            return make_response(camper.to_dict(rules=("-signups",)), 201)
+            return make_response(camper.to_dict(), 201)
         except ValueError:
             return make_response({"errors": ["validation errors"]}, 400)
 
@@ -55,7 +53,9 @@ class CamperById(Resource):
     def get(self, id):
         camper = Camper.query.get(id)
         if camper:
-            return make_response(camper.to_dict(), 200)
+            return make_response(
+                camper.to_dict(rules=("signups", "signups.activity")), 200
+            )
         else:
             return make_response({"error": "Camper not found"}, 404)
 
@@ -69,7 +69,7 @@ class CamperById(Resource):
                         setattr(camper, key, camper_json[key])
                 db.session.commit()
 
-                return make_response(camper.to_dict(rules=("-signups",)), 202)
+                return make_response(camper.to_dict(), 202)
             except ValueError:
                 return make_response({"errors": ["validation errors"]}, 400)
         else:
@@ -84,9 +84,7 @@ class Activities(Resource):
     def get(self):
         activities = Activity.query.all()
 
-        return make_response(
-            [activity.to_dict(rules=("-signups",)) for activity in activities], 200
-        )
+        return make_response([activity.to_dict() for activity in activities], 200)
 
 
 class ActivityById(Resource):
@@ -116,7 +114,7 @@ class Signups(Resource):
                     setattr(signup, key, signup_json[key])
             db.session.add(signup)
             db.session.commit()
-            return make_response(signup.to_dict(), 201)
+            return make_response(signup.to_dict(rules=("activity", "camper")), 201)
         except ValueError:
             return make_response({"errors": ["validation errors"]}, 400)
 

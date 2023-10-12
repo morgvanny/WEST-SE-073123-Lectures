@@ -32,6 +32,8 @@ class Activity(db.Model, SerializerMixin):
 
     # Add serialization rules
 
+    serialize_rules = ("-signups", "-campers")
+
     def __repr__(self):
         return f"<Activity {self.id}: {self.name}>"
 
@@ -47,13 +49,15 @@ class Camper(db.Model, SerializerMixin):
     signups = db.relationship("Signup", back_populates="camper")
     activities = association_proxy("signups", "activity")
     # Add serialization rules
-    serialize_rules = ("-signups.camper",)
+    serialize_rules = ("-signups", "-activities")
     # Add validation
 
     @validates("name")
     def validate_name(self, key, name):
         if not name:
             raise ValueError("Name is required")
+        if name in [camper.name for camper in Camper.query.all() if camper is not self]:
+            raise ValueError("Name must be unique")
         return name
 
     @validates("age")
@@ -79,7 +83,7 @@ class Signup(db.Model, SerializerMixin):
     activity = db.relationship("Activity", back_populates="signups")
 
     # Add serialization rules
-    serialize_rules = ("-activity.signups", "-camper.signups")
+    serialize_rules = ("-activity", "-camper", "-created_at", "-updated_at")
 
     # Add validation
     @validates("time")
@@ -93,3 +97,6 @@ class Signup(db.Model, SerializerMixin):
 
 
 # add any models you may need.
+
+
+camper = db.session.get(Camper, 1)
