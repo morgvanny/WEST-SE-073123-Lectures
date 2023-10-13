@@ -14,6 +14,7 @@ app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = DATABASE
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.json.compact = False
+
 migrate = Migrate(app, db)
 
 db.init_app(app)
@@ -51,7 +52,9 @@ class ScientistById(Resource):
     def get(self, id):
         scientist = db.session.get(Scientist, id)  # Scientist.query.get(id)
         if scientist:
-            return make_response(scientist.to_dict(rules=("missions",)), 200)
+            return make_response(
+                scientist.to_dict(rules=("missions", "missions.planet")), 200
+            )
 
         return make_response({"error": "Scientist not found"}, 404)
 
@@ -97,7 +100,7 @@ class Missions(Resource):
                     setattr(mission, key, mission_json[key])
             db.session.add(mission)
             db.session.commit()
-            return make_response(mission.to_dict(rules=("scientist",)), 201)
+            return make_response(mission.to_dict(rules=("scientist", "planet")), 201)
         except ValueError:
             return make_response({"errors": ["validation errors"]}, 400)
 

@@ -55,8 +55,18 @@ class Camper(db.Model, SerializerMixin):
     @validates("name")
     def validate_name(self, key, name):
         if not name:
-            raise ValueError("Name is required")
-        if name in [camper.name for camper in Camper.query.all() if camper is not self]:
+            raise ValueError(
+                "Name is "
+                "requiredasdfkaskldfj;alksdjf;alksdjf;laskdjf;alksd"
+                "jfasdfkja;sdlkfjas;df al;ksdjf;laksjdf;laskjdf;laksdjf; "
+                "asdkfja;lsdkjf;asdkjf"
+            )
+        if (
+            db.session.query(Camper)
+            .filter(Camper.name == name)
+            .filter(Camper.id != self.id)
+            .first()
+        ):
             raise ValueError("Name must be unique")
         return name
 

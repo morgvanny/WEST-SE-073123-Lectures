@@ -79,7 +79,7 @@ class Mission(db.Model, SerializerMixin):
     planet = db.relationship("Planet", back_populates="missions")
     # Add serialization rules
 
-    serialize_rules = ("-scientist",)
+    serialize_rules = ("-scientist", "-planet")
 
     # Add validation
     @validates("name")
