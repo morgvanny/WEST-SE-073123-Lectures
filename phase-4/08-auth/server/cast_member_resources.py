@@ -10,9 +10,7 @@ class CastMemberResource(Resource):
 
     def patch(self, id):
         cast_member_json = request.get_json()
-
         cast_member = self.get_cast_member(id)
-
         if cast_member:
             try:
                 for key in cast_member_json:
@@ -25,10 +23,6 @@ class CastMemberResource(Resource):
                 return make_response({"error": e.__str__()}, 422)
         else:
             return make_response({"error": "Cast member not found."}, 404)
-        # if cast_member_json.get("name"):
-        #     cast_member.name = cast_member_json.get("name")
-        #     db.session.commit()
-        #
 
     def delete(self):
         cast_member = self.get_cast_member(id)

@@ -5,15 +5,10 @@ from flask_restful import Api
 from models import Production, db
 
 app = Flask(__name__)
-
 api = Api(app)
-
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///app.db"
-
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-
 migrate = Migrate(app, db)
-
 db.init_app(app)
 
 
@@ -26,11 +21,7 @@ def productions():
 @app.route("/productions", methods=["POST"])
 def create_production():
     production_json = request.get_json()
-
     try:
-        # production = Production(
-        #     title=production_json.get("title"), image=production_json.get("image")
-        # )
         properties = [
             "title",
             "image",
@@ -43,10 +34,8 @@ def create_production():
         production = Production()
         for prop in properties:
             setattr(production, prop, production_json.get(prop))
-
         db.session.add(production)
         db.session.commit()
-
         return make_response(production.to_dict(), 201)
     except ValueError as e:
         return make_response({"error": e.__str__()}, 422)
@@ -57,7 +46,6 @@ def production_by_id(id):
     prod = Production.query.get(id)
     if not prod:
         return make_response({"message": "Production not found."}, 404)
-        # abort(404, "Production not found.")
     if request.method == "GET":
         return make_response(prod.to_dict(), 200)
     elif request.method == "PATCH":
