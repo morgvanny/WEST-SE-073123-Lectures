@@ -2,23 +2,10 @@
 
 ## Learning Goals
 
-- Demonstrate Flask Routing and Views
-- Review Context
-  - Request Hooks
-  - Demonstrate Creating a Response
-    - Status Codes
-  - Demonstrate Accessing URL Params
-- Demonstrate Flask SQLAlchemy
-  - Review Models
-  - Demonstrate Migrating in Flask
-  - Demonstrate Seeding
-  - Demonstrate Querying / Serving Resources
-  - Demonstrate the Flask Shell
+- Demonstrate using cookies
+- Demonstrate using sessions
+- Learn how signing up, signing in, and authorizing requests works
 
 ## Lecture Topics
 
-- Flask Routing and Views
-- Flask Application Structure
-- SQLAlechmy in Flask
-- CRUD
-- REST
+- Flask Authorization
