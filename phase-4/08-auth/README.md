@@ -1,4 +1,4 @@
-# Flask SQLAlchemy and CRUD
+# Flask Auth
 
 ## Learning Goals
 
