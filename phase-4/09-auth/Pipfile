@@ -14,6 +14,7 @@ jsonify = "0.5"
 sqlalchemy-serializer = "1.4.1"
 flask-restful = "*"
 python-dotenv = "*"
+flask-bcrypt = "*"
 
 [dev-packages]
 

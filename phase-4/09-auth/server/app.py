@@ -1,20 +1,8 @@
-from os import environ
-
 from cast_member_resources import CastMemberResource, CastMembersResource
-from dotenv import load_dotenv
-from flask import Flask, make_response, request, session
-from flask_migrate import Migrate
-from flask_restful import Api
-from models import Production, db
-
-app = Flask(__name__)
-api = Api(app)
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///app.db"
-app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-migrate = Migrate(app, db)
-db.init_app(app)
-load_dotenv(".env")
-app.secret_key = environ.get("SECRET_KEY")
+from config import api, app
+from flask import make_response, request, session
+from models import Production, User, db
+from sqlalchemy.exc import IntegrityError
 
 
 @app.route("/set_user", methods=["GET"])
@@ -26,9 +14,49 @@ def set_user():
     return make_response("signed in as user # 2", 200)
 
 
+@app.route("/signup", methods=["POST"])
+def signup():
+    user_json = request.get_json()
+    user = User()
+    try:
+        for key in user_json:
+            if hasattr(user, key):
+                setattr(user, key, user_json[key])
+        user.password_hash = user_json.get("password")
+        db.session.add(user)
+        db.session.commit()
+        session["user_id"] = user.id
+        return make_response(user.to_dict(), 201)
+    except ValueError as e:
+        return make_response({"error": e.__str__()}, 422)
+    except IntegrityError:
+        return make_response({"error": "Username must be unique"}, 422)
+
+
+@app.route("/login", methods=["POST"])
+def login():
+    user_json = request.get_json()
+    user = User.query.filter(User.username == user_json.get("username"))[0]
+    if user and user.authenticate(user_json.get("password")):
+        session["user_id"] = user.id
+        return make_response(user.to_dict(), 200)
+    else:
+        return make_response({"error": "Username or password is incorrect"}, 401)
+
+
 @app.route("/me", methods=["GET"])
 def me():
-    return make_response("user # " + request.cookies.get("user_id"), 200)
+    user = db.session.get(User, session.get("user_id"))
+    if user:
+        return make_response(user.to_dict(), 200)
+    else:
+        return make_response({"error": "not logged in"}, 401)
+
+
+@app.route("/logout", methods=["DELETE"])
+def logout():
+    session.clear()
+    return make_response("", 204)
 
 
 @app.route("/set_red", methods=["GET"])
@@ -59,12 +87,16 @@ def cookie_color():
 
 @app.route("/productions", methods=["GET"])
 def productions():
+    if not find_user():
+        return make_response({"error": "user must log in first"}, 401)
     prods = Production.query.all()
     return make_response([p.to_dict() for p in prods], 200)
 
 
 @app.route("/productions", methods=["POST"])
 def create_production():
+    if not find_user():
+        return make_response({"error": "user must log in first"}, 401)
     production_json = request.get_json()
     try:
         properties = [
@@ -88,6 +120,8 @@ def create_production():
 
 @app.route("/productions/<int:id>", methods=["GET", "PATCH", "DELETE"])
 def production_by_id(id):
+    if not find_user():
+        return make_response({"error": "user must log in first"}, 401)
     prod = Production.query.get(id)
     if not prod:
         return make_response({"message": "Production not found."}, 404)
@@ -106,6 +140,10 @@ def production_by_id(id):
         db.session.delete(prod)
         db.session.commit()
         return "", 204
+
+
+def find_user():
+    return db.session.get(User, session.get("user_id"))
 
 
 api.add_resource(CastMemberResource, "/castmembers/<int:id>")

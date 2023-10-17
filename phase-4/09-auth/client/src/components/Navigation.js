@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { useHistory } from "react-router-dom";
 import { GiHamburgerMenu } from "react-icons/gi";
 
-function Navigation() {
+function Navigation({ setUser }) {
   const [menu, setMenu] = useState(false);
   const history = useHistory();
 
@@ -13,6 +13,7 @@ function Navigation() {
       method: "DELETE",
     }).then((res) => {
       if (res.ok) {
+        setUser(null);
         history.push("/login");
       }
     });

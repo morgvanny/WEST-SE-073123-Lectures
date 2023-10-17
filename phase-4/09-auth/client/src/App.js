@@ -14,6 +14,14 @@ function App() {
   const [user, setUser] = useState();
 
   useEffect(() => {
+    fetch("/me").then((r) => {
+      if (r.ok) {
+        return r.json().then(setUser);
+      } else {
+        setUser(null);
+      }
+    });
+
     fetchProductions();
   }, []);
 
@@ -30,27 +38,27 @@ function App() {
     setProductions((current) => [...current, production]);
 
   if (!user) {
-    if (user == null) {
+    if (user === null) {
       return (
         <>
           <GlobalStyle />
-          <Navigation />
+          <Navigation setUser={setUser} />
           <Switch>
             <Route path="/login">
-              <Login />
+              <Login setUser={setUser} />
             </Route>
             <Route path="/signup">
-              <Signup />
+              <Signup setUser={setUser} />
             </Route>
-            <Route>
-              <Redirect to="/login" />
-            </Route>
+            <Redirect to="/login" />
           </Switch>
         </>
       );
     } else {
       return (
         <>
+          <GlobalStyle />
+          <Navigation />
           <p>Loading...</p>
         </>
       );
@@ -60,7 +68,7 @@ function App() {
   return (
     <>
       <GlobalStyle />
-      <Navigation />
+      <Navigation setUser={setUser} />
       <Switch>
         <Route path="/productions/new">
           <ProductionForm addProduction={addProduction} />

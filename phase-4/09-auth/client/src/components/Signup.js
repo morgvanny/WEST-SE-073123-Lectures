@@ -2,18 +2,19 @@ import { useHistory, Link } from "react-router-dom";
 import styled from "styled-components";
 import { useFormik } from "formik";
 import * as yup from "yup";
+import { useState } from "react";
 
-function Signup() {
+function Signup({ setUser }) {
   const history = useHistory();
-
+  const [errorMessage, setErrorMessage] = useState();
   const formSchema = yup.object().shape({
-    name: yup.string().required("Please enter a user name"),
+    username: yup.string().required("Please enter a user name"),
     email: yup.string().email(),
   });
 
   const formik = useFormik({
     initialValues: {
-      name: "",
+      username: "",
       email: "",
       password: "",
     },
@@ -28,10 +29,13 @@ function Signup() {
       }).then((res) => {
         if (res.ok) {
           res.json().then((user) => {
+            setUser(user);
             history.push("/");
           });
         } else {
-          res.json().then(console.log);
+          res.json().then((r) => {
+            setErrorMessage(r.error);
+          });
         }
       });
     },
@@ -39,17 +43,18 @@ function Signup() {
 
   return (
     <>
+      <h2 style={{ color: "red" }}> {errorMessage}</h2>
       <h2 style={{ color: "red" }}> {formik.errors.name}</h2>
       <h2>Sign up here!</h2>
       <h2>Already a member?</h2>
       <Link to="/login">Login</Link>
       <Form onSubmit={formik.handleSubmit}>
-        <label htmlFor="name">Username</label>
+        <label htmlFor="username">Username</label>
         <input
-          id="name"
+          id="username"
           type="text"
-          name="name"
-          value={formik.values.name}
+          name="username"
+          value={formik.values.username}
           onChange={formik.handleChange}
         />
         <label htmlFor="email">Email</label>
