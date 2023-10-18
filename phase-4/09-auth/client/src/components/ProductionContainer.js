@@ -1,20 +1,22 @@
-import styled from 'styled-components'
-import ProductionCard from './ProductionCard'
+import styled from "styled-components";
+import ProductionCard from "./ProductionCard";
 
+function ProductionContainer({ productions }) {
+	return (
+		<div>
+			<Title>
+				<span>F</span>latIron Theater <span>C</span>ompany
+			</Title>
+			<CardContainer>
+				{productions.map((production) => (
+					<ProductionCard key={production.id} production={production} />
+				))}
+			</CardContainer>
+		</div>
+	);
+}
 
-function ProductionContainer({productions}) {
-
-    return (
-     <div>
-         <Title><span>F</span>latIron Theater <span>C</span>ompany</Title>
-         <CardContainer>
-             {productions.map(production => <ProductionCard  key={production.id} production={production}  />)}
-         </CardContainer>
-     </div>
-    )
-  }
-  
-export default ProductionContainer
+export default ProductionContainer;
 
 const Title = styled.h1`
     text-transform: uppercase;
@@ -28,12 +30,10 @@ const Title = styled.h1`
     span{
         color:#42ddf5;
     }
-`
-
+`;
 
 const CardContainer = styled.ul`
     display:flex;
     flex-direction:column;
 
-`
-
+`;

@@ -1,29 +1,26 @@
-import {Link} from 'react-router-dom'
-import styled from 'styled-components'
+import { Link } from "react-router-dom";
+import styled from "styled-components";
 
+function ProductionCard({ production }) {
+	const { title, budget, genre, image, id } = production;
 
-function ProductionCard({production}) {
-    const {title, budget, genre, image, id} = production
+	return (
+		<Card id={id}>
+			<Link to={`/productions/${id}`}>
+				<div>
+					<h2>{title}</h2>
+					<p>{genre}</p>
+					<p>$ {budget}</p>
+				</div>
+				<img src={image} alt={title} />
+			</Link>
+		</Card>
+	);
+}
 
-    return (
-      <Card id={id}>
-        <Link to={`/productions/${id}`}> 
-          <div>
-            <h2>{title}</h2>
-            <p>{genre}</p>
-            <p>$ {budget}</p>
-          </div>
-          <img src={image}/>
-        </Link>
-      </Card>
-     
-    )
-  }
-  
-  export default ProductionCard
+export default ProductionCard;
 
-
-  const Card = styled.li`
+const Card = styled.li`
     display:flex;
     flex-direction:row;
     justify-content:start;
@@ -46,4 +43,4 @@ function ProductionCard({production}) {
     div{
      position:absolute;
     }
-  `
+  `;

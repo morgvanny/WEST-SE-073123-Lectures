@@ -1,74 +1,74 @@
-import { useHistory, Link } from "react-router-dom";
-import styled from "styled-components";
 import { useFormik } from "formik";
-import * as yup from "yup";
 import { useState } from "react";
+import { Link, useHistory } from "react-router-dom";
+import styled from "styled-components";
+import * as yup from "yup";
 
 function Login({ setUser }) {
-  const history = useHistory();
-  const [errorMessage, setErrorMessage] = useState();
-  const formSchema = yup.object().shape({
-    username: yup.string().required("Please enter a user name"),
-    email: yup.string().email(),
-  });
+	const history = useHistory();
+	const [errorMessage, setErrorMessage] = useState();
+	const formSchema = yup.object().shape({
+		username: yup.string().required("Please enter a user name"),
+		email: yup.string().email(),
+	});
 
-  const formik = useFormik({
-    initialValues: {
-      username: "",
-      email: "",
-      password: "",
-    },
-    validationSchema: formSchema,
-    onSubmit: (values) => {
-      fetch("/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(values),
-      }).then((res) => {
-        if (res.ok) {
-          res.json().then((user) => {
-            setUser(user);
-            history.push("/");
-          });
-        } else {
-          res.json().then((r) => {
-            setErrorMessage(r.error);
-          });
-        }
-      });
-    },
-  });
+	const formik = useFormik({
+		initialValues: {
+			username: "",
+			email: "",
+			password: "",
+		},
+		validationSchema: formSchema,
+		onSubmit: (values) => {
+			fetch("/login", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify(values),
+			}).then((res) => {
+				if (res.ok) {
+					res.json().then((user) => {
+						setUser(user);
+						history.push("/");
+					});
+				} else {
+					res.json().then((r) => {
+						setErrorMessage(r.error);
+					});
+				}
+			});
+		},
+	});
 
-  return (
-    <>
-      <h2 style={{ color: "red" }}> {errorMessage}</h2>
-      <h2 style={{ color: "red" }}> {formik.errors.name}</h2>
-      <h2>Welcome back!</h2>
-      <h2>Not a member?</h2>
-      <Link to="/signup">Sign up here!</Link>
-      <Form onSubmit={formik.handleSubmit}>
-        <label htmlFor="username">Username</label>
-        <input
-          id="username"
-          type="text"
-          username="username"
-          value={formik.values.username}
-          onChange={formik.handleChange}
-        />
-        <label htmlFor="password">Password</label>
-        <input
-          id="password"
-          type="password"
-          name="password"
-          value={formik.values.password}
-          onChange={formik.handleChange}
-        />
-        <input type="submit" value="Log In!" />
-      </Form>
-    </>
-  );
+	return (
+		<>
+			<h2 style={{ color: "red" }}> {errorMessage}</h2>
+			<h2 style={{ color: "red" }}> {formik.errors.name}</h2>
+			<h2>Welcome back!</h2>
+			<h2>Not a member?</h2>
+			<Link to="/signup">Sign up here!</Link>
+			<Form onSubmit={formik.handleSubmit}>
+				<label htmlFor="username">Username</label>
+				<input
+					id="username"
+					type="text"
+					username="username"
+					value={formik.values.username}
+					onChange={formik.handleChange}
+				/>
+				<label htmlFor="password">Password</label>
+				<input
+					id="password"
+					type="password"
+					name="password"
+					value={formik.values.password}
+					onChange={formik.handleChange}
+				/>
+				<input type="submit" value="Log In!" />
+			</Form>
+		</>
+	);
 }
 
 export default Login;
